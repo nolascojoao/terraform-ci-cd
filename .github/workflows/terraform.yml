@@ -1,0 +1,44 @@
+name: Terraform Deployment
+
+on:
+  workflow_dispatch:  # Permite execução manual
+
+jobs:
+  terraform:
+    name: Apply Terraform
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write  # Permite o GitHub Actions gerar tokens OIDC
+      contents: read   # Permite ler o código do repositório
+
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar credenciais AWS via OIDC
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          role-to-assume: arn:aws:iam::SEU_ACCOUNT_ID:role/NOME_DA_ROLE
+          aws-region: us-east-1
+
+      - name: Instalar Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.5.7
+
+      - name: Inicializar Terraform
+        run: terraform init
+        working-directory: ./terraform
+
+      - name: Validar Terraform
+        run: terraform validate
+        working-directory: ./terraform
+
+      - name: Planejar Infraestrutura
+        run: terraform plan
+        working-directory: ./terraform
+
+      - name: Aplicar Infraestrutura
+        run: terraform apply -auto-approve
+        working-directory: ./terraform
