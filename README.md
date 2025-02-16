@@ -21,7 +21,10 @@ sts.amazonaws.com
 1. Vá para o painel de **Roles** no IAM e clique em **Create role**.
 2. Selecione **Web identity** como o tipo de confiança.
 3. Em **Identity provider**, selecione o provedor que você criou no passo anterior.
-4. No campo **Audience**, insira:
+```bash
+token.actions.githubusercontent.com
+```
+5. No campo **Audience**, insira:
 ```bash
 sts.amazonaws.com
 ```
