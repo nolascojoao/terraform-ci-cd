@@ -1,6 +1,7 @@
 provider "aws" {
-  region  = var.aws_region
-  profile = var.aws_profile
+  region  = "us-east-1"
+  shared_credentials_files = []
+  profile = "default"
 }
 
 # Obtém a única VPC disponível na conta
