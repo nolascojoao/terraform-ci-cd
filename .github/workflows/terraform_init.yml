@@ -12,6 +12,10 @@ jobs:
       id-token: write
       contents: read
 
+    defaults:
+      run:
+        working-directory: .
+
     steps:
       - name: Checkout do código
         uses: actions/checkout@v4
@@ -29,16 +33,12 @@ jobs:
 
       - name: Inicializar Terraform
         run: terraform init
-        working-directory: terraform-ci-cd
 
       - name: Validar Terraform
         run: terraform validate
-        working-directory: terraform-ci-cd
 
       - name: Planejar Infraestrutura
         run: terraform plan
-        working-directory: terraform-ci-cd
 
       - name: Aplicar Infraestrutura
         run: terraform apply -auto-approve
-        working-directory: terraform-ci-cd
