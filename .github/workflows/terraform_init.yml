@@ -14,7 +14,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: .
+        working-directory: .  # Centraliza o diretório de trabalho
 
     steps:
       - name: Checkout do código
@@ -39,6 +39,10 @@ jobs:
 
       - name: Planejar Infraestrutura
         run: terraform plan
+        env:
+          AWS_PROFILE: ""  # Garantindo que o Terraform não use o perfil default
 
       - name: Aplicar Infraestrutura
         run: terraform apply -auto-approve
+        env:
+          AWS_PROFILE: ""  # Garantindo que o Terraform não use o perfil default
