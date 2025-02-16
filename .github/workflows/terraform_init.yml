@@ -29,16 +29,16 @@ jobs:
 
       - name: Inicializar Terraform
         run: terraform init
-        working-directory: ./terraform
 
       - name: Validar Terraform
         run: terraform validate
-        working-directory: ./terraform
 
       - name: Planejar Infraestrutura
         run: terraform plan
-        working-directory: ./terraform
 
       - name: Aplicar Infraestrutura
         run: terraform apply -auto-approve
-        working-directory: ./terraform
+
+    defaults:
+      run:
+        working-directory: terraform-ci-cd
