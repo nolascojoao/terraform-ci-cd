@@ -7,14 +7,9 @@ jobs:
   terraform:
     name: Apply Terraform
     runs-on: ubuntu-latest
-
     permissions:
       id-token: write
       contents: read
-
-    defaults:
-      run:
-        working-directory: .  # Centraliza o diretório de trabalho
 
     steps:
       - name: Checkout do código
@@ -23,7 +18,7 @@ jobs:
       - name: Configurar credenciais AWS via OIDC
         uses: aws-actions/configure-aws-credentials@v2
         with:
-          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: us-east-1
 
       - name: Instalar Terraform
@@ -33,16 +28,20 @@ jobs:
 
       - name: Inicializar Terraform
         run: terraform init
+        working-directory: .
 
       - name: Validar Terraform
         run: terraform validate
+        working-directory: .
 
       - name: Planejar Infraestrutura
         run: terraform plan
+        working-directory: .
         env:
-          AWS_PROFILE: ""  # Garantindo que o Terraform não use o perfil default
-
+          AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}  # Passando a role como variável de ambiente
+          
       - name: Aplicar Infraestrutura
         run: terraform apply -auto-approve
+        working-directory: .
         env:
-          AWS_PROFILE: ""  # Garantindo que o Terraform não use o perfil default
+          AWS_ROLE_ARN: ${{ secrets.AWS_ROLE_ARN }}  # Passando a role como variável de ambiente

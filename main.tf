@@ -1,7 +1,11 @@
 provider "aws" {
-  region  = "us-east-1"
-  shared_credentials_files = []
-  profile = "default"
+  region = "us-east-1"
+
+  # Configuração para autenticação via OIDC, usando a variável de ambiente para o ARN da role
+  assume_role {
+    role_arn     = var.aws_role_arn
+    session_name = "github-actions"
+  }
 }
 
 # Obtém a única VPC disponível na conta
