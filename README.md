@@ -1,5 +1,16 @@
 ## Resumo de Passos para Configuração de OIDC e Role para GitHub Actions na AWS
 
+
+OIDC (OpenID Connect) na AWS com GitHub permite que seus workflows do GitHub Actions se autentiquem diretamente na AWS sem a necessidade de armazenar chaves de acesso (IAM Access Keys). Isso melhora a segurança e reduz o risco de vazamento de credenciais.
+
+**Como funciona?**
+- GitHub como Identity Provider (IdP): A AWS permite que o GitHub seja configurado como um provedor de identidade OIDC.
+- Role IAM com Trust Policy: Você cria uma role IAM na AWS com uma trust policy que permite que tokens OIDC emitidos pelo GitHub sejam usados para autenticação.
+- GitHub Actions assume a role: No workflow do GitHub Actions, você configura a autenticação para assumir a role IAM via OIDC, sem precisar de chaves estáticas.
+
+
+---
+
 ## Passo 1: Criar o Identity Provider na AWS
 
 1. **Acesse o console da AWS** e vá para **IAM** (Identity and Access Management).
